@@ -1,6 +1,6 @@
 -- Create the rbac_realms table
 CREATE TABLE IF NOT EXISTS rbac_realms (
-  id VARCHAR(100) NOT NULL PRIMARY KEY,
+  id VARCHAR(36) NOT NULL PRIMARY KEY,
   description TEXT,
   created_by UUID,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
