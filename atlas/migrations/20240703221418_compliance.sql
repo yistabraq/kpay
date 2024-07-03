@@ -1,3 +1,13 @@
+-- Create "rbac_realms" table
+CREATE TABLE "public"."rbac_realms" (
+  "id" character varying(36) NOT NULL,
+  "description" text NULL,
+  "created_by" uuid NULL,
+  "created_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_by" uuid NULL,
+  "updated_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ("id")
+);
 -- Create "set_default_status" function
 CREATE FUNCTION "public"."set_default_status" () RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
@@ -7,6 +17,16 @@ BEGIN
   RETURN NEW;
 END;
 $$;
+-- Create "rbac_audit_records" table
+CREATE TABLE "public"."rbac_audit_records" (
+  "id" character varying(36) NOT NULL,
+  "message" text NOT NULL,
+  "action" character varying(100) NULL,
+  "context" text NULL,
+  "created_by" character varying(36) NULL,
+  "created_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ("id")
+);
 -- Create "rbac_resources" table
 CREATE TABLE "public"."rbac_resources" (
   "id" character varying(36) NOT NULL,
@@ -23,6 +43,24 @@ CREATE TABLE "public"."rbac_resources" (
 );
 -- Create index "rbac_resources_type_ndx" to table: "rbac_resources"
 CREATE UNIQUE INDEX "rbac_resources_type_ndx" ON "public"."rbac_resources" ("realm_id", "resource_name");
+-- Create "rbac_organizations" table
+CREATE TABLE "public"."rbac_organizations" (
+  "id" character varying(36) NOT NULL,
+  "parent_id" character varying(36) NULL,
+  "name" character varying(150) NOT NULL,
+  "url" character varying(200) NOT NULL,
+  "description" text NULL,
+  "created_by" character varying(36) NULL,
+  "created_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_by" character varying(36) NULL,
+  "updated_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "rbac_organizations_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."rbac_organizations" ("id") ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+-- Create index "rbac_organizations_name_ndx" to table: "rbac_organizations"
+CREATE UNIQUE INDEX "rbac_organizations_name_ndx" ON "public"."rbac_organizations" ("name");
+-- Create index "rbac_organizations_parent_ndx" to table: "rbac_organizations"
+CREATE UNIQUE INDEX "rbac_organizations_parent_ndx" ON "public"."rbac_organizations" ("parent_id");
 -- Create "rbac_license_policies" table
 CREATE TABLE "public"."rbac_license_policies" (
   "id" character varying(36) NOT NULL,
@@ -65,16 +103,6 @@ CREATE INDEX "rbac_resource_insts_policy_ndx" ON "public"."rbac_resource_instanc
 CREATE UNIQUE INDEX "rbac_resource_insts_ref_ndx" ON "public"."rbac_resource_instances" ("resource_id", "license_policy_id", "scope", "ref_id");
 -- Create trigger "set_default_status_trigger"
 CREATE TRIGGER "set_default_status_trigger" BEFORE INSERT ON "public"."rbac_resource_instances" FOR EACH ROW EXECUTE FUNCTION "public"."set_default_status"();
--- Create "rbac_audit_records" table
-CREATE TABLE "public"."rbac_audit_records" (
-  "id" character varying(36) NOT NULL,
-  "message" text NOT NULL,
-  "action" character varying(100) NULL,
-  "context" text NULL,
-  "created_by" character varying(36) NULL,
-  "created_at" timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY ("id")
-);
 -- Create "rbac_claims" table
 CREATE TABLE "public"."rbac_claims" (
   "id" character varying(36) NOT NULL,
