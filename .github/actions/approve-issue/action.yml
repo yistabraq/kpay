@@ -1,0 +1,22 @@
+name: "Approve Issue"
+description: "Approve the issue"
+inputs:
+  url:
+    description: "The Bytebase URL. Example: https://bytebase.example.com"
+    required: true
+  token:
+    description: "The API token obtained from bytebase/login action"
+    required: true
+  headers:
+    description: 'JSON string of extra headers to include in the request. e.g Cloudflare Zero Trust headers {"CF-Access-Client-Id": "xxx", CF-Access-Client-Secret: "xxx"}'
+  project-id:
+    description: "The project ID. Example: example"
+    required: true
+  title:
+    description: "The title of the issue"
+    required: true
+  comment:
+    description: "The comment to add to the issue"
+runs:
+  using: "node20"
+  main: "dist/index.js"

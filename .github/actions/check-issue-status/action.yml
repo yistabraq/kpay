@@ -1,0 +1,38 @@
+# This action should only be run on pull_request events to check the rollout status of the changed
+# migration files
+name: "Check Issue Status"
+description: "Check the issue rollout status"
+inputs:
+  github-token:
+    description: "GitHub token for accessing the API"
+    required: true
+  pattern:
+    description: "Glob pattern to match changed files"
+    required: true
+    default: "**/*.up.sql"
+  url:
+    description: "The Bytebase URL. Example: https://bytebase.example.com"
+    required: true
+  token:
+    description: "The API token obtained from bytebase/login action"
+    required: true
+  headers:
+    description: 'JSON string of extra headers to include in the request. e.g Cloudflare Zero Trust headers {"CF-Access-Client-Id": "xxx", CF-Access-Client-Secret: "xxx"}'
+  project-id:
+    description: "The project ID. Example: example"
+    required: true
+  title:
+    description: "The title of the issue"
+    required: true
+outputs:
+  issue:
+    description: "The issue if found. If multiple found, return the most recently created one."
+  plan:
+    description: "The plan linked with the issue. The plan is the rollout blueprint containing stages, and each stage contains tasks."
+  rollout:
+    description: "The rollout linked with the plan. The rollout contains detailed rollout status for the plan."
+  rollout-details:
+    description: "The detailed rollout status for each migration file."
+runs:
+  using: "node20"
+  main: "dist/index.js"

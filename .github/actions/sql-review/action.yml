@@ -1,0 +1,30 @@
+# This action should only be run on pull_request events
+name: "SQL Review"
+description: "Call Bytebase API to check SQL anti-patterns"
+inputs:
+  github-token:
+    description: "GitHub token for accessing the API"
+    required: true
+  pattern:
+    description: "Glob pattern to match changed files"
+    required: true
+    default: "**/*.up.sql"
+  url:
+    description: "The Bytebase URL. Example: https://bytebase.example.com"
+    required: true
+  token:
+    description: "The API token obtained from bytebase/login action"
+    required: true
+  headers:
+    description: 'JSON string of extra headers to include in the request. e.g Cloudflare Zero Trust headers {"CF-Access-Client-Id": "xxx", CF-Access-Client-Secret: "xxx"}'
+  database:
+    description: "The name of database. Example: instances/prod-instance/databases/example"
+    required: true
+  fail-on-warnings:
+    description: "Fail job if sql review has warnings"
+    type: boolean
+    required: false
+    default: true
+runs:
+  using: "node20"
+  main: "dist/index.js"
