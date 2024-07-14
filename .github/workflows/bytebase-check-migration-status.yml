@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "**/*.up.sql"
+      - "bytebase/migrations/*.up.sql"
 
 jobs:
   bytebase-check-migration-status:

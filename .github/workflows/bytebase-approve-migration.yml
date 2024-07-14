@@ -11,8 +11,8 @@ jobs:
     # Runs only if PR is approved and target branch is main
     if: github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'main'
     env:
-      BYTEBASE_URL: "https://bytebase-ci.zeabur.app"
-      BYTEBASE_SERVICE_ACCOUNT: "ci@service.bytebase.com"
+      BYTEBASE_URL: "https://cheerful-condor-loosely.ngrok-free.app"
+      BYTEBASE_SERVICE_ACCOUNT: "sa@service.bytebase.com"
       PROJECT: "example"
       ISSUE_TITLE: "[${{ github.repository }}#${{ github.event.pull_request.number }}] ${{ github.event.pull_request.title }}"
     name: Approve Migration
