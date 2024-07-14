@@ -1,1 +1,1 @@
-ALTER TABLE rbac_roles alter column realm_id Type character varying(36) NOT NULL;
+ALTER TABLE rbac_roles alter column realm_id Type character varying(36);
