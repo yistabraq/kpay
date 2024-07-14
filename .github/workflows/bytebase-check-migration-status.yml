@@ -11,9 +11,9 @@ jobs:
   bytebase-check-migration-status:
     runs-on: ubuntu-latest
     env:
-      BYTEBASE_URL: "https://bytebase-ci.zeabur.app"
-      BYTEBASE_SERVICE_ACCOUNT: "ci@service.bytebase.com"
-      PROJECT: "example"
+      BYTEBASE_URL: "https://cheerful-condor-loosely.ngrok-free.app"
+      BYTEBASE_SERVICE_ACCOUNT: "sa@service.bytebase.com"
+      PROJECT: "compleance"
       ISSUE_TITLE: "[${{ github.repository }}#${{ github.event.pull_request.number }}] ${{ github.event.pull_request.title }}"
     name: Check Migration Status
     steps:

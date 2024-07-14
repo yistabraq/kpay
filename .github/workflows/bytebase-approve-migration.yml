@@ -13,7 +13,7 @@ jobs:
     env:
       BYTEBASE_URL: "https://cheerful-condor-loosely.ngrok-free.app"
       BYTEBASE_SERVICE_ACCOUNT: "sa@service.bytebase.com"
-      PROJECT: "example"
+      PROJECT: "compleance"
       ISSUE_TITLE: "[${{ github.repository }}#${{ github.event.pull_request.number }}] ${{ github.event.pull_request.title }}"
     name: Approve Migration
     steps:
